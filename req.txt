@@ -1,0 +1,7 @@
+fastapi[all]
+requests
+sqlalchemy
+python-jose
+bcrypt==4.0.1
+passlib[bcrypt]
+redis==5.2.1
