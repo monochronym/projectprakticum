@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 import uvicorn
+from app.routers.users import usersRouter
 from api import api
 app = FastAPI()
 
@@ -7,6 +8,7 @@ app = FastAPI()
 async def hello():
     return "hello"
 
+app.include_router(usersRouter)
 app.include_router(api)
 
 if __name__ == "__main__":
