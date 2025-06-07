@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
 from app.routers.users import usersRouter
-from api import api
+from app.api import api
 app = FastAPI()
 
 @app.get("/hello")
