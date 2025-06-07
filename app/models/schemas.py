@@ -1,25 +1,26 @@
 import re
 from enum import Enum
 from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, Base64Bytes
 import datetime
+from base64 import b64encode
 from uuid import UUID
 
-class LoginBody(BaseModel):
+class loginBody(BaseModel):
     email: str = Field()
 
-class LoginBodyConfirm(BaseModel):
+class loginBodyConfirm(BaseModel):
     email: str = Field()
     otp: str = Field()
 
-class User(BaseModel):
+class user(BaseModel):
     id: int = Field(default=None)
     email: str = Field()
     api_key: str = Field()
 
-class Recipient(BaseModel):
-    id: int = Field(default=None)
-    userId: int = Field()
+class recipient(BaseModel):
+    id: UUID = Field(default=None)
+    userId: UUID = Field()
     firstName: str = Field()
     lastname: str = Field()
     middleName: str = Field()
@@ -32,45 +33,47 @@ class Recipient(BaseModel):
             raise ValueError('Номер телефона должен начинаться с "+" и содержать от 1 до 15 цифр')
         return values
 
-class GoodCategory(BaseModel):
+class goodCategory(BaseModel):
     id: int = Field(default=None)
     title: str = Field()
     description: str = Field()
-    parentId: 'Optional[GoodCategory]' = Field(default=None)
+    parentId: 'Optional[goodCategory]' = Field(default=None)
 
-class Good(BaseModel):
-    id: int = Field(default=None)
+class good(BaseModel):
+    id: UUID = Field(default=None)
     name: str = Field()
     description: str = Field()
     price: int = Field(ge=0)
     categoryId: int = Field()
+    picture: Base64Bytes
 
-class PaymentMethod(BaseModel):
+class paymentMethod(BaseModel):
     id: int = Field()
     title: str = Field()
     description: str = Field()
 
-class DeliveryMethod(BaseModel):
+class deliveryMethod(BaseModel):
     id: int = Field()
     title: str = Field()
     description: str = Field()
 
-class BasketItem(BaseModel):
-    id: int = Field()
-    goodId: Good = Field()
-    count: int = Field()
-
-class Basket(BaseModel):
+class basketItem(BaseModel):
     id: UUID = Field()
-    basketItems: list[BasketItem] = Field()
+    goodId: UUID = Field()
+    count: int = Field()
+    basket_id: UUID
 
-class Checkout(BaseModel):
+class basket(BaseModel):
+    id: UUID = Field(default="")
+    basketItems: list[basketItem] = Field(list())
+
+class checkout(BaseModel):
     id: str
-    user: User = Field()
-    recipient: Recipient = Field()
-    basket: Basket = Field()
-    paymentMethod: PaymentMethod = Field()
-    deliveryMethod: DeliveryMethod = Field()
+    user_id: user = Field()
+    recipient_id: recipient = Field()
+    basket_id: basket = Field()
+    paymentMethod_id: paymentMethod = Field()
+    deliveryMethod_id: deliveryMethod = Field()
     paymentTotal: int = Field()
 
 class TransactionStatus(str, Enum):
@@ -84,6 +87,6 @@ class Transaction(BaseModel):
     updated: datetime.datetime = Field()
     status: TransactionStatus = Field()
     amount: int = Field()
-    checkout: Checkout = Field()
+    checkout_id: checkout = Field()
     providerData: bool
 

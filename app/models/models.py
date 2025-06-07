@@ -1,5 +1,5 @@
 from app.database import Base, uuid_pk, int_pk, str_pk, str_uniq, str_null_true
-from sqlalchemy import ForeignKey, text, Text
+from sqlalchemy import ForeignKey, text, Text, LargeBinary, Column
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from uuid import UUID
 
@@ -15,7 +15,6 @@ class Recipient(Base):
     lastName: Mapped[str]
     middleName: Mapped[str]
     address: Mapped[str]
-    zipCode: Mapped[str]
     phone: Mapped[str]
 
 class GoodCategory(Base):
@@ -28,22 +27,24 @@ class GoodCategory(Base):
 
 
 class Good(Base):
-    id: Mapped[int_pk]
+    id: Mapped[uuid_pk]
     name: Mapped[str_uniq]
     description: Mapped[str]
     price: Mapped[int]
+    image: Mapped[bytes] = mapped_column(LargeBinary)
+    imageType: Mapped[str]
     categoryId: Mapped[int] = mapped_column(ForeignKey('goodcategorys.id'))
 
 
 class BasketItem(Base):
-    id: Mapped[int_pk]
+    id: Mapped[uuid_pk]
     goodId: Mapped['Good'] = mapped_column(ForeignKey("goods.id"))
     count: Mapped[int]
     basket_id: Mapped[UUID] = mapped_column(ForeignKey("baskets.id"))
     basket: Mapped["Basket"] = relationship('Basket', back_populates="basket_items")
 
 class Basket(Base):
-    id: Mapped[int_pk]
+    id: Mapped[uuid_pk]
     basket_items: Mapped[list["BasketItem"]] = relationship("BasketItem", back_populates="basket")
 
 class DeliveryMethod(Base):
