@@ -45,7 +45,6 @@ class good(BaseModel):
     description: str = Field()
     price: int = Field(ge=0)
     categoryId: int = Field()
-    picture: Base64Bytes
 
 class paymentMethod(BaseModel):
     id: int = Field()
