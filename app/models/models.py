@@ -6,6 +6,7 @@ from uuid import UUID
 class User(Base):
     id: Mapped[int_pk]
     email: Mapped[str_uniq]
+    password: Mapped[str]
     api_key: Mapped[str_uniq]
 
 class Recipient(Base):

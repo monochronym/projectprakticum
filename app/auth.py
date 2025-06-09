@@ -1,14 +1,35 @@
+
+
+from starlette import status
+from starlette.responses import JSONResponse
+
 from app.models.schemas import loginBody, loginBodyConfirm, user
 from datetime import datetime, timedelta, timezone
 from jose import jwt
 from app.config import get_auth_data
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from app.dao.users import UserDAO
 from fastapi.responses import RedirectResponse
 from app.config import redis_client
 import smtplib
 from email.mime.text import MIMEText
 import random
+from passlib.context import CryptContext
+
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def get_password_hash(password: str) -> str:
+    return pwd_context.hash(password)
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)
+
+
+
+
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()
     expire = datetime.now(timezone.utc) + timedelta(days=30)
@@ -21,7 +42,35 @@ def create_access_token(data: dict) -> str:
 authRouter = APIRouter(prefix="/auth")
 
 
+@authRouter.post("/register")
+async def register_user(loginBodyrequest: loginBody):
+    user = await UserDAO.find_by_filter(email=loginBodyrequest.email)
+    if user:
+        content = {"message": "User found"}
+        response = JSONResponse(content=content)
+        return response
+    user_dict = loginBodyrequest.dict()
+    user_dict['password'] = get_password_hash(loginBodyrequest.password)
+    user_dict["api_key"] = create_access_token(user_dict)
+    await UserDAO.add(**user_dict)
+    content = {"api_key":user.api_key}
+    response = JSONResponse(content=content)
+    response.set_cookie(key="api_key", value=user.api_key)
+    return response
+
+
 @authRouter.post("/login")
+async def authenticate_user(loginBodyrequest: loginBody):
+    user = await UserDAO.find_by_filter(email=loginBodyrequest.email)
+    if not user or verify_password(plain_password=loginBodyrequest.password, hashed_password=user.password) is False:
+        content = {"message": "User not found"}
+        response = JSONResponse(content=content)
+        return response
+    content = {"api_key":user.api_key}
+    response = JSONResponse(content=content)
+    response.set_cookie(key="api_key", value=user.api_key)
+    return response
+
 async def login(loginBody: loginBody):
     user = await UserDAO.find_by_filter(**loginBody.dict())
     if user == None:

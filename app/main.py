@@ -8,7 +8,6 @@ app = FastAPI()
 async def hello():
     return "hello"
 
-app.include_router(usersRouter)
 app.include_router(api)
 
 if __name__ == "__main__":

@@ -1,13 +1,13 @@
 import re
 from enum import Enum
 from typing import Optional
-from pydantic import BaseModel, Field, Base64Bytes
+from pydantic import BaseModel, Field
 import datetime
-from base64 import b64encode
 from uuid import UUID
 
 class loginBody(BaseModel):
     email: str = Field()
+    password: str = Field()
 
 class loginBodyConfirm(BaseModel):
     email: str = Field()
@@ -16,6 +16,7 @@ class loginBodyConfirm(BaseModel):
 class user(BaseModel):
     id: int = Field(default=None)
     email: str = Field()
+    password: str
     api_key: str = Field()
 
 class recipient(BaseModel):
