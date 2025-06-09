@@ -2,14 +2,21 @@ from fastapi import APIRouter
 from app.dao.goods import GoodDAO
 from app.responses.goods import SGoods
 from app.models.schemas import good
-from base64 import b64encode
 goodsRouter = APIRouter(prefix="")
 
 
 
 @goodsRouter.get("/goods/{goods_id}")
-async def get_goods(goods_id) -> SGoods | None:
-    return await GoodDAO.find_by_id(int(goods_id))
+async def get_goods(goods_id):
+    return await GoodDAO.find_by_id(goods_id)
+@goodsRouter.get("/goods/")
+async def get_goods_by_filter(goods_category_id:int):
+    if goods_category_id > 0:
+
+        return await GoodDAO.find_by_filter(categoryId=goods_category_id)
+
+    else:
+        return await GoodDAO.find_all()
 
 
 @goodsRouter.post("/goods")

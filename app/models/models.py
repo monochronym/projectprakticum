@@ -21,7 +21,7 @@ class GoodCategory(Base):
     id: Mapped[int_pk]
     title: Mapped[str]
     description: Mapped[str]
-    parent_id: Mapped[int] = mapped_column(ForeignKey('goodcategorys.id'))
+    parent_id: Mapped[int] = mapped_column(ForeignKey('goodcategorys.id'), nullable=True)
 
     children: Mapped["GoodCategory"] = relationship('GoodCategory')
 
@@ -31,8 +31,8 @@ class Good(Base):
     name: Mapped[str_uniq]
     description: Mapped[str]
     price: Mapped[int]
-    image: Mapped[bytes] = mapped_column(LargeBinary)
-    imageType: Mapped[str]
+    image: Mapped[bytes] = mapped_column(LargeBinary, nullable=True)
+    imageType: Mapped[str] = mapped_column(nullable=True)
     categoryId: Mapped[int] = mapped_column(ForeignKey('goodcategorys.id'))
 
 
@@ -58,7 +58,7 @@ class PaymentMethod(Base):
     description: Mapped[str]
 
 class Checkout(Base):
-    id: Mapped[str_pk]
+    id: Mapped[uuid_pk]
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     user: Mapped["User"] = relationship()
     recipient_id: Mapped[int] = mapped_column(ForeignKey("recipients.id"))

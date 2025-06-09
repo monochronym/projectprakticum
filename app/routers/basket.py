@@ -3,7 +3,6 @@ import uuid
 from fastapi import APIRouter
 from app.dao.baskets import BasketDAO
 from app.dao.basketItems import BasketItemDAO
-from app.responses.goods import SGoods
 from app.models.schemas import basket, basketItem
 basketRouter = APIRouter(prefix="")
 basketItemsRouter = APIRouter(prefix="")

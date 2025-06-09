@@ -7,12 +7,20 @@ from sqlalchemy.orm import DeclarativeBase, declared_attr, Mapped, mapped_column
 from uuid import UUID
 
 from app.config import get_db_url
+#
+# DB_HOST="maglev.proxy.rlwy.net"
+# DB_PORT=14094
+# DB_NAME="railway"
+# DB_USER="postgres"
+# DB_PASSWORD="XiUzqnmpZTQEJFAxdKRdNqapYwVmnXKf"
 
-DB_HOST = 'localhost'
-DB_PORT = '5433'
-DB_NAME = 'ProjectPrakticum'
-DB_USER = 'postgres'
-DB_PASSWORD = 'CasperTo360Flip'
+DB_HOST='localhost'
+DB_PORT=5433
+DB_NAME='ProjectPrakticum'
+DB_USER='postgres'
+DB_PASSWORD='CasperTo360Flip'
+
+
 
 DATABASE_URL = f'postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
 

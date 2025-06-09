@@ -20,7 +20,7 @@ class user(BaseModel):
 
 class recipient(BaseModel):
     id: UUID = Field(default=None)
-    userId: UUID = Field()
+    userId: int = Field()
     firstName: str = Field()
     lastname: str = Field()
     middleName: str = Field()
@@ -37,7 +37,7 @@ class goodCategory(BaseModel):
     id: int = Field(default=None)
     title: str = Field()
     description: str = Field()
-    parentId: 'Optional[goodCategory]' = Field(default=None)
+    parent_id: 'Optional[int]' = Field(default=None)
 
 class good(BaseModel):
     id: UUID = Field(default=None)
@@ -45,7 +45,6 @@ class good(BaseModel):
     description: str = Field()
     price: int = Field(ge=0)
     categoryId: int = Field()
-    picture: Base64Bytes
 
 class paymentMethod(BaseModel):
     id: int = Field()
@@ -68,12 +67,12 @@ class basket(BaseModel):
     basketItems: list[basketItem] = Field(list())
 
 class checkout(BaseModel):
-    id: str
-    user_id: user = Field()
-    recipient_id: recipient = Field()
-    basket_id: basket = Field()
-    paymentMethod_id: paymentMethod = Field()
-    deliveryMethod_id: deliveryMethod = Field()
+    id: UUID
+    user_id: int = Field()
+    recipient_id: UUID = Field()
+    basket_id: UUID = Field()
+    paymentMethod_id: int = Field()
+    deliveryMethod_id: int = Field()
     paymentTotal: int = Field()
 
 class TransactionStatus(str, Enum):
@@ -82,11 +81,11 @@ class TransactionStatus(str, Enum):
     ERROR = "ERROR"
 
 class Transaction(BaseModel):
-    id: str = Field()
+    id: UUID = Field()
     created: datetime.datetime = Field()
     updated: datetime.datetime = Field()
     status: TransactionStatus = Field()
     amount: int = Field()
-    checkout_id: checkout = Field()
+    checkout_id: UUID = Field()
     providerData: bool
 

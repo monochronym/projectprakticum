@@ -1,14 +1,12 @@
 from fastapi import APIRouter
 from app.dao.users import UserDAO
-from app.responses.goods import SGoods
 from app.models.schemas import user
-from base64 import b64encode
 usersRouter = APIRouter(prefix="")
 
 
 
 @usersRouter.get("/users/{users_id}")
-async def get_goodsCategory(users_id) -> SGoods | None:
+async def get_goodsCategory(users_id):
     return await UserDAO.find_by_id(int(users_id))
 
 
