@@ -45,6 +45,7 @@ class BasketItem(Base):
 
 class Basket(Base):
     id: Mapped[uuid_pk]
+    user_id: Mapped["User"] = mapped_column(ForeignKey('users.id'))
     basket_items: Mapped[list["BasketItem"]] = relationship("BasketItem", back_populates="basket")
 
 class DeliveryMethod(Base):

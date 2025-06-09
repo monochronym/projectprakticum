@@ -10,13 +10,13 @@ basketItemsRouter = APIRouter(prefix="")
 
 @basketRouter.get("/basket/{basket_id}")
 async def get_basket(basket_id):
-    return await BasketDAO.find_by_id(int(basket_id))
+    return await BasketDAO.find_by_id(basket_id)
 
 
 @basketRouter.post("/basket")
-async def create_basket():
+async def create_basket(user_id:uuid.UUID):
     basket_id = uuid.uuid4()
-    return await BasketDAO.add(id=basket_id)
+    return await BasketDAO.add(id=basket_id, user_id=user_id)
 
 @basketRouter.patch("/basket")
 async def patch_basket(basket:basket):
@@ -28,7 +28,7 @@ async def delete_basket(basket_id: str):
 
 @basketItemsRouter.get("/basketItem/{users_id}")
 async def get_basketItems(basket_id):
-    return await BasketDAO.find_by_id(int(basket_id))
+    return await BasketDAO.find_by_id(basket_id)
 
 
 @basketItemsRouter.post("/basketItem")

@@ -64,6 +64,7 @@ class basketItem(BaseModel):
 
 class basket(BaseModel):
     id: UUID = Field(default="")
+    user_id: UUID
     basketItems: list[basketItem] = Field(list())
 
 class checkout(BaseModel):
