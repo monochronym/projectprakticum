@@ -9,6 +9,10 @@ goodsRouter = APIRouter(prefix="")
 @goodsRouter.get("/goods/{goods_id}")
 async def get_goods(goods_id):
     return await GoodDAO.find_by_id(goods_id)
+
+@goodsRouter.get("/goods/")
+async def get_all_goods():
+    return await GoodDAO.find_all()
 @goodsRouter.get("/goods/")
 async def get_goods_by_filter(goods_category_id:int):
     if goods_category_id > 0:
