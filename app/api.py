@@ -1,9 +1,9 @@
 from fastapi import APIRouter
-from routers.goods import goodsRouter
-from routers.users import usersRouter
-from routers.goodsCategories import goodsCategoryRouter
-from routers.basket import basketRouter, basketItemsRouter
-from auth import authRouter
+from app.routers.goods import goodsRouter
+from app.routers.users import usersRouter
+from app.routers.goodsCategories import goodsCategoryRouter
+from app.routers.basket import basketRouter, basketItemsRouter
+from app.auth import authRouter
 
 api = APIRouter(prefix="/api/v1")
 
