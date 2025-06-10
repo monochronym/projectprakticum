@@ -46,7 +46,7 @@ class good(BaseModel):
     description: str = Field()
     price: int = Field(ge=0)
     categoryId: int = Field()
-    file_bytes: str
+    image: str
 class paymentMethod(BaseModel):
     id: int = Field()
     title: str = Field()

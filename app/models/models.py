@@ -32,8 +32,7 @@ class Good(Base):
     name: Mapped[str_uniq]
     description: Mapped[str]
     price: Mapped[int]
-    image: Mapped[bytes] = mapped_column(LargeBinary, nullable=True)
-    imageType: Mapped[str] = mapped_column(nullable=True)
+    image: Mapped[str] = mapped_column(nullable=True)
     categoryId: Mapped[int] = mapped_column(ForeignKey('goodcategorys.id'))
 
 
