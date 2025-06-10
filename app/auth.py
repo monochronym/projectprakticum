@@ -3,12 +3,12 @@ import uuid
 from starlette import status
 from starlette.responses import JSONResponse
 
-from models.schemas import loginBody, loginBodyConfirm, user
+from app.models.schemas import loginBody, loginBodyConfirm, user
 from datetime import datetime, timedelta, timezone
 from jose import jwt
-from config import get_auth_data
+from app.config import get_auth_data
 from fastapi import APIRouter, HTTPException
-from dao.users import UserDAO
+from app.dao.users import UserDAO
 from fastapi.responses import RedirectResponse
 # from config import redis_client
 import smtplib
