@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 from sqlalchemy.orm import DeclarativeBase, declared_attr, Mapped, mapped_column
 from uuid import UUID
 
-from app.config import get_db_url
+# from config import get_db_url
 
 DB_HOST="maglev.proxy.rlwy.net"
 DB_PORT=14094

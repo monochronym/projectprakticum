@@ -4,13 +4,13 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from uuid import UUID
 
 class User(Base):
-    id: Mapped[int_pk]
+    id: Mapped[uuid_pk]
     email: Mapped[str_uniq]
     password: Mapped[str]
     api_key: Mapped[str_uniq]
 
 class Recipient(Base):
-    id: Mapped[int_pk]
+    id: Mapped[uuid_pk]
     userId: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     firstName: Mapped[str]
     lastName: Mapped[str]
@@ -39,14 +39,14 @@ class Good(Base):
 
 class BasketItem(Base):
     id: Mapped[uuid_pk]
-    goodId: Mapped['Good'] = mapped_column(ForeignKey("goods.id"))
+    goodId: Mapped[UUID] = mapped_column(ForeignKey("goods.id"))
     count: Mapped[int]
     basket_id: Mapped[UUID] = mapped_column(ForeignKey("baskets.id"))
     basket: Mapped["Basket"] = relationship('Basket', back_populates="basket_items")
 
 class Basket(Base):
     id: Mapped[uuid_pk]
-    user_id: Mapped["User"] = mapped_column(ForeignKey('users.id'))
+    user_id: Mapped[UUID] = mapped_column(ForeignKey('users.id'))
     basket_items: Mapped[list["BasketItem"]] = relationship("BasketItem", back_populates="basket")
 
 class DeliveryMethod(Base):
@@ -61,9 +61,9 @@ class PaymentMethod(Base):
 
 class Checkout(Base):
     id: Mapped[uuid_pk]
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    user_id: Mapped[UUID] = mapped_column(ForeignKey("users.id"))
     user: Mapped["User"] = relationship()
-    recipient_id: Mapped[int] = mapped_column(ForeignKey("recipients.id"))
+    recipient_id: Mapped[UUID] = mapped_column(ForeignKey("recipients.id"))
     recipient: Mapped["Recipient"] = relationship()
     basket_id: Mapped[UUID] = mapped_column(ForeignKey("baskets.id"))
     basket: Mapped["Basket"] = relationship()

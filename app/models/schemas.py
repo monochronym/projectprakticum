@@ -3,8 +3,8 @@ from enum import Enum
 from typing import Optional
 from pydantic import BaseModel, Field
 import datetime
-from uuid import UUID
-
+from uuid import UUID, uuid4
+import base64
 class loginBody(BaseModel):
     email: str = Field()
     password: str = Field()
@@ -41,12 +41,12 @@ class goodCategory(BaseModel):
     parent_id: 'Optional[int]' = Field(default=None)
 
 class good(BaseModel):
-    id: UUID = Field(default=None)
+    id: Optional[UUID] = Field(default='')
     name: str = Field()
     description: str = Field()
     price: int = Field(ge=0)
     categoryId: int = Field()
-
+    file_bytes: str
 class paymentMethod(BaseModel):
     id: int = Field()
     title: str = Field()
