@@ -40,7 +40,7 @@ async def create_basketItems(good_id: str, goods_count: int, basket_id: str):
 
 @basketItemsRouter.patch("/basketItem")
 async def patch_basketItems(basketItems:basketItem):
-    return BasketItemDAO.update(basketItems.dict(),**basketItems.dict())
+    return await BasketItemDAO.update(basketItems.dict(),**basketItems.dict())
 
 # @basketItemsRouter.delete("/basketItem")
 # async def delete_basketItems(basketItem_id:str):
@@ -48,4 +48,4 @@ async def patch_basketItems(basketItems:basketItem):
 
 @basketItemsRouter.delete("/basketItem")
 async def delete_basketItems_by_goodId(good_id:str, basket_id:str):
-    return BasketItemDAO.delete( False,goodId=good_id, basket_id=basket_id)
+    return await BasketItemDAO.delete( False,goodId=good_id, basket_id=basket_id)
