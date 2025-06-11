@@ -47,5 +47,5 @@ async def delete_basketItems(basketItem_id:str):
     return BasketItemDAO.delete( False,id=basketItem_id)
 
 @basketItemsRouter.delete("/basketItem")
-async def delete_basketItems_by_goodId(good_id:str):
-    return BasketItemDAO.delete( False,goodId=good_id)
+async def delete_basketItems_by_goodId(good_id:str, basket_id:str):
+    return BasketItemDAO.delete( False,goodId=good_id, basket_id=basket_id)
