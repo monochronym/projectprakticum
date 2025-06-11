@@ -19,7 +19,7 @@ api.include_router(goodsCategoryRouter)
 api.include_router(basketRouter)
 api.include_router(basketItemsRouter)
 
-@api.post('/payOrder')
+@api.get('/payOrder')
 async def payment(price:int):
     username = "1105152"
     password = "test_d7j4GCtpZdAHGD_R9GKTdE6GabPMyHsNTx8BQyeuIak"
