@@ -8,11 +8,11 @@ from uuid import UUID
 
 # from config import get_db_url
 
-DB_HOST="maglev.proxy.rlwy.net"
-DB_PORT=14094
+DB_HOST="yamanote.proxy.rlwy.net"
+DB_PORT=11899
 DB_NAME="railway"
 DB_USER="postgres"
-DB_PASSWORD="XiUzqnmpZTQEJFAxdKRdNqapYwVmnXKf"
+DB_PASSWORD="JRRdKuAWPEBvkNIKINWVcfplCTpwMYBv"
 
 # DB_HOST='localhost'
 # DB_PORT=5433
@@ -23,7 +23,6 @@ DB_PASSWORD="XiUzqnmpZTQEJFAxdKRdNqapYwVmnXKf"
 
 
 DATABASE_URL = f'postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
-
 engine = create_async_engine(DATABASE_URL)
 async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
